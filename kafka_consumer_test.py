@@ -1,4 +1,4 @@
-# backend/kafka_consumer_test.py
+
 import json
 from kafka import KafkaConsumer
 
@@ -14,19 +14,19 @@ try:
         auto_offset_reset='earliest', # Start reading from the beginning of the topic
         consumer_timeout_ms=10000 # Stop after 10 seconds if no message is received
     )
-    print("✅ Connection successful. Waiting for messages...")
+    print(" Connection successful. Waiting for messages...")
 
     message_received = False
     for message in consumer:
-        print("\n🎉 Message received!")
+        print("\n Message received!")
         print(f"Data: {message.value}")
         message_received = True
 
     if not message_received:
-        print("\n❌ No messages received after 10 seconds.")
+        print("\n No messages received after 10 seconds.")
 
 except Exception as e:
-    print(f"\n🛑 Error connecting to Kafka: {e}")
+    print(f"\n Error connecting to Kafka: {e}")
 
 finally:
     print("Test finished.")
