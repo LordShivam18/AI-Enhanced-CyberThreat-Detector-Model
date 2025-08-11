@@ -20,7 +20,7 @@ SCALER_OUTPUT_PATH = "./results/scaler.gz"
 # Model Hyperparameters
 SEQUENCE_LENGTH = 10
 TEST_SIZE = 0.2
-BATCH_SIZE = 32 # <-- REDUCED BATCH SIZE
+BATCH_SIZE = 32 # REDUCED BATCH SIZE
 EPOCHS = 3
 D_MODEL = 128 # The dimension of the transformer model
 N_HEAD = 8 # Number of attention heads
