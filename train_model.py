@@ -1,4 +1,4 @@
-# train_model.py (Transformer Version - Memory Optimized)
+
 
 import pandas as pd
 import numpy as np
@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import classification_report
 
-# --- Configuration ---
+
 DATA_FILE_PATH = "./data/MachineLearningCVE.csv"
 MODEL_OUTPUT_DIR = "./results/model"
 SCALER_OUTPUT_PATH = "./results/scaler.gz"
@@ -26,7 +26,7 @@ D_MODEL = 128 # The dimension of the transformer model
 N_HEAD = 8 # Number of attention heads
 N_LAYERS = 3 # Number of transformer layers
 
-# --- 1. Data Loading and Preprocessing ---
+
 print("Step 1: Loading and Preprocessing Data...")
 def load_and_preprocess_data(filepath):
     df = pd.read_csv(filepath, encoding='latin1', low_memory=False)
@@ -52,7 +52,7 @@ def load_and_preprocess_data(filepath):
     print(f"Scaler saved to {SCALER_OUTPUT_PATH}")
     return X_scaled, y.values
 
-# --- 2. Sequence Creation ---
+
 print("Step 2: Creating Sequences...")
 def create_sequences(features, labels, seq_length):
     sequences, sequence_labels = [], []
@@ -96,7 +96,7 @@ class ThreatTransformer(nn.Module):
         output = self.decoder(output)
         return output
 
-# --- 4. Main Execution Block ---
+
 def main():
     features, labels = load_and_preprocess_data(DATA_FILE_PATH)
     sequences, sequence_labels = create_sequences(features, labels, SEQUENCE_LENGTH)
