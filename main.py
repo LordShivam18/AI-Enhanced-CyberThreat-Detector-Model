@@ -27,8 +27,8 @@ app = FastAPI(title="AI Cybersecurity Threat Detector API")
 
 
 origins = [
-    "http://localhost:3000",      # Local frontend
-    "http://192.168.29.59:3000",  # Frontend via local network IP
+    "http://localhost:30",      
+    "http://192.168.29.5:300",  
 ]
 
 app.add_middleware(
