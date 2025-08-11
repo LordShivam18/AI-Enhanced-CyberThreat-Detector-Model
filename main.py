@@ -1,4 +1,4 @@
-# backend/main.py
+
 
 import os
 import json
@@ -19,12 +19,8 @@ from kafka import KafkaConsumer
 from datetime import datetime
 from typing import List
 
-# ----------------------------
-# Local Configuration
-# ----------------------------
-DATABASE_URL = "postgresql://postgres:postgres@localhost/threatdb"
-KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
-KAFKA_TOPIC = "network_traffic"
+
+
 
 # ----------------------------
 # FastAPI App Initialization
@@ -98,10 +94,10 @@ try:
     model.load_state_dict(torch.load("./results/model/transformer_model.pth"))
     model.eval()
 
-    print("✅ Transformer model and scaler loaded successfully!")
+    print("Transformer model and scaler loaded successfully!")
 
 except FileNotFoundError:
-    print("🛑 Error: Model or scaler not found. Predictions will be disabled.")
+    print(" Error: Model or scaler not found. Predictions will be disabled.")
     model, scaler = None, None
 
 # ----------------------------
@@ -179,7 +175,7 @@ async def consume():
                 )
                 db.add(alert)
                 db.commit()
-                print(f"🚨 Attack detected! Confidence: {probability:.2f}")
+                print(" Attack detected! Confidence: {probability:.2f}")
     finally:
         db.close()
         consumer.close()
@@ -189,9 +185,9 @@ async def consume():
 # ----------------------------
 @app.on_event("startup")
 async def startup_event():
-    print("🚀 Application starting up...")
+    print(" Application starting up...")
     Base.metadata.create_all(bind=engine)
-    print("📂 Database tables ready.")
+    print(" Database tables ready.")
     asyncio.create_task(consume())
 
 # ----------------------------
