@@ -22,14 +22,10 @@ from typing import List
 
 
 
-# ----------------------------
-# FastAPI App Initialization
-# ----------------------------
+
 app = FastAPI(title="AI Cybersecurity Threat Detector API")
 
-# ----------------------------
-# CORS Middleware
-# ----------------------------
+
 origins = [
     "http://localhost:3000",      # Local frontend
     "http://192.168.29.59:3000",  # Frontend via local network IP
@@ -43,9 +39,7 @@ app.add_middleware(
     allow_headers=["*"],   # Allow all headers
 )
 
-# ----------------------------
-# Transformer Model Definition
-# ----------------------------
+
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, max_len=5000):
         super(PositionalEncoding, self).__init__()
@@ -79,10 +73,7 @@ class ThreatTransformer(nn.Module):
         output = self.decoder(output)
         return output
 
-# ----------------------------
-# Load Model and Scaler
-# ----------------------------
-try:
+
     scaler = joblib.load("./results/scaler.gz")
 
     INPUT_DIM = 78  # Must match training script
@@ -100,9 +91,7 @@ except FileNotFoundError:
     print(" Error: Model or scaler not found. Predictions will be disabled.")
     model, scaler = None, None
 
-# ----------------------------
-# Database Setup
-# ----------------------------
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -122,9 +111,7 @@ def get_db():
     finally:
         db.close()
 
-# ----------------------------
-# Prediction Logic
-# ----------------------------
+
 def run_prediction(flow_dict: dict):
     if not model or not scaler:
         return "ERROR", 0.0
@@ -150,9 +137,9 @@ def run_prediction(flow_dict: dict):
     result_label = "BENIGN" if predicted_class.item() == 0 else "ATTACK"
     return result_label, confidence.item()
 
-# ----------------------------
+
 # Kafka Consumer
-# ----------------------------
+
 async def consume():
     consumer = KafkaConsumer(
         KAFKA_TOPIC,
@@ -180,9 +167,7 @@ async def consume():
         db.close()
         consumer.close()
 
-# ----------------------------
-# Startup Event
-# ----------------------------
+
 @app.on_event("startup")
 async def startup_event():
     print(" Application starting up...")
@@ -190,9 +175,7 @@ async def startup_event():
     print(" Database tables ready.")
     asyncio.create_task(consume())
 
-# ----------------------------
-# API Endpoints
-# ----------------------------
+
 class AlertResponse(BaseModel):
     id: int
     timestamp: datetime
