@@ -199,7 +199,7 @@ class NetworkFlow(BaseModel):
     flow_iat_max: float
     fwd_iat_tot: float
 
-@app.post("/predict")
+
 def predict_flow(flow: NetworkFlow):
     prediction, probability = run_prediction(flow.dict())
     return {"prediction": prediction, "probability": probability}
